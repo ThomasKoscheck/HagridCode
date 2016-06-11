@@ -13,7 +13,7 @@
 #include <Wire.h>
 #include <DHT.h> //von ladyada: https://github.com/adafruit/DHT-sensor-library
 
-#define DHTPIN 2     // benutzter ARDUINO-Pin
+#define DHTPIN 4     // benutzter ARDUINO-Pin
 
 #define DHTTYPE DHT11   // unser Sensor: DHT11 
 
