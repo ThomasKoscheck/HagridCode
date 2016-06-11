@@ -18,8 +18,11 @@
 // WiFi information
 const char* ssid     = "666666";
 const char* password = "12345678";
+int smileyzeiger(int smiley);
 
 const char* host = "www.umweltbundesamt.de";
+
+
 
 void setup() {
   Serial.begin(115200);
@@ -44,41 +47,27 @@ void setup() {
   Serial.println(WiFi.localIP());
 }
 
-
-void loop() {
-    delay(5000);
-    Serial.print("connecting to ");
-    Serial.println(host);
-
-    // Use WiFiClient class to create TCP connections
+void serverdatenabfrageserial(String ziel) {
+      // Use WiFiClient class to create TCP connections
     WiFiClient client;
     const int httpPort = 80;
     if (!client.connect(host, httpPort)) {
-    Serial.println("connection failed");
-    return;
+      Serial.println("connection failed");
+      return;
     }
 
-    // We now create a URI for the request
     String url = "/stan";
 
-    Serial.print("Requesting URL: ");
-    Serial.println(url);
-
-    // This will send the request to the server
-    client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-               "Host: " + host + "\r\n" + 
-               "Connection: close\r\n\r\n");
-    delay(10);
-
-    // Read all the lines of the reply from server and print them to Serial
-    Serial.println("Respond:");
-    while(client.available()){
-      String line = client.readStringUntil('\r');
-      Serial.print(line);
+    client.print(String("GET ") + url +" HTTP/1.1\r\n" + "Host: " + ziel + "\r\n" + "Connection: close\r\n\r\n");
+    Serial.println("Antwort:");
+    while(client.available()) {
+      Serial.println(client.readStringUntil('\r'));
     }
+    
+}
 
-    Serial.println();
-    Serial.println("closing connection");
+void loop() {
+
 }
 
 
@@ -107,5 +96,7 @@ void feinstaubauswertung(int fnstb)  {    //fnstb == Feinstaub //nicht schön
     Serial.println("Fehler bei der Datenverarbeitung");
   }   
 }
+
+
 
 
