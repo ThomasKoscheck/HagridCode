@@ -47,6 +47,14 @@ void setup() {
   Serial.println(WiFi.localIP());
 }
 
+String serialrecieve()  {
+  String recieve
+  while(Serial.available()) {
+    recieve += (char)Serial.read();
+  }
+  return recieve;
+}
+
 void serverdatenabfrageserial(String ziel) {
       // Use WiFiClient class to create TCP connections
     WiFiClient client;
