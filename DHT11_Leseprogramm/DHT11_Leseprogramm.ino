@@ -10,10 +10,10 @@
 // Pin 4: GND
 // 2K oder 5K oder 10K Widerstand von Pin 2 (data) nach Pin 1 (power) 
 
-
+#include <Wire.h>
 #include <DHT.h> //von ladyada: https://github.com/adafruit/DHT-sensor-library
 
-#define DHTPIN 2     // benutzter ARDUINO-Pin
+#define DHTPIN 4     // benutzter ARDUINO-Pin
 
 #define DHTTYPE DHT11   // unser Sensor: DHT11 
 
@@ -26,13 +26,12 @@ void setup()
   dht.begin();
 }
 
-
 void loop() 
 {
-  delay(250);
+  delay(2000);
   // Das Erfassen von Temperatur und Luftfeuchtigkeit benoetigt ca. 250 Millisekunden.
-  float h = dht.readHumidity();
-  float t = dht.readTemperature();
+  int h = dht.readHumidity();
+  int t = dht.readTemperature();
 
   // Check, ob die Daten Zahlen sind, falls nicht (NaN: not a number), ist was falsch gelaufen!
   if (isnan(t) || isnan(h)) {
@@ -42,10 +41,10 @@ void loop()
     //t = t - 1.00; //Diese Korrektur war bei mir noetig
     Serial.print("Feuchtigkeit: "); 
     Serial.print(h);
-    Serial.print(" %\t   ");
+    Serial.print("%\t   ");
     Serial.print("Temperatur: "); 
     Serial.print(t);
-    Serial.println("Grad Celsius");
+    Serial.println(" Grad");
   }
 }
 

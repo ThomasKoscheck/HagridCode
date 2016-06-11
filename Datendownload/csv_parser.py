@@ -1,9 +1,9 @@
 #!/usr/bin/python3.4
 import csv
 import urllib.request
-import os
+import RPi.GPIO as GPIO
 import time
-import serial
+import os
 
 #Folgendes nimmt das Aktuelle Datum und konvertiert es in ein fuer die url
 #funktionierendes Format
@@ -25,14 +25,46 @@ feinstaub_werte = feinstaub_werte.split()
 feinstaub_werte = feinstaub_werte[len(feinstaub_werte)-1]
 feinstaub_werte = feinstaub_werte.split(sep = ";")
 feinstaub_werte = feinstaub_werte[len(feinstaub_werte)-1]
+feinstaub_werte = int(feinstaub_werte)
 
 print(feinstaub_werte) #test
 
-#Schicke feinstaub_werte auf als string /dev/ttyUSB0
+#Schreibt pins an
+grueneLuft = 20
+gelbeLuft = 30
+orangeneLuft = 40
 
-ser = serial.Serial('/dev/ttyUSB0')
-print(ser.name)
-ser.write(feinstaub_werte.encode())
-ser.close()
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(0, GPIO.OUT) #gruen
+GPIO.setup(2, GPIO.OUT) #gelb
+GPIO.setup(3, GPIO.OUT) #orange
+GPIO.setup(7, GPIO.OUT) #rot
 
-#~ print(feinstaub_werte)
+if feinstaub_werte <= grueneLuft:
+        GPIO.output(0, GPIO.HIGH)
+        GPIO.output(2, GPIO.LOW)
+        GPIO.output(3, GPIO.LOW)	
+        GPIO.output(7, GPIO.LOW)
+
+elif feinstaub_werte <= gelbeLuft:
+        GPIO.output(0, GPIO.LOW)
+        GPIO.output(2, GPIO.HIGH)
+        GPIO.output(3, GPIO.LOW)
+        GPIO.output(7, GPIO.LOW)
+
+elif feinstaub_werte <= orangeneLuft:
+        GPIO.output(0, GPIO.LOW)
+        GPIO.output(2, GPIO.LOW)
+        GPIO.output(3, GPIO.HIGH)
+        GPIO.output(7, GPIO.LOW)
+
+elif feinstaub_werte > orangeneLuft:
+        GPIO.output(0, GPIO.LOW)
+        GPIO.output(2, GPIO.LOW)
+        GPIO.output(3, GPIO.LOW)
+        GPIO.output(7, GPIO.HIGH)
+else:
+	print("Fehler bei der Dateneingabe")
+
+GPIO.cleanup()
+
