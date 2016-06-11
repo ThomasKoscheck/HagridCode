@@ -779,19 +779,19 @@ void setup()
 
 void loop(void)
 {
-  if(digitalRead(2) == HIGH){
+  if(digitalRead(2) == LOW){
     tft.fillScreen(GREEN);
     tft.drawBitmap(0, 0, s1, 240, 240, WHITE);
   }
-  else if(digitalRead(0) == HIGH){
+  else if(digitalRead(0) == LOW){
     tft.fillScreen(YELLOW);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(15) == HIGH){
+  else if(digitalRead(15) == LOW){
     tft.fillScreen(ORANGE);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(16) == HIGH){
+  else if(digitalRead(16) == LOW){
     tft.fillScreen(RED);
     tft.drawBitmap(0, 0, s3, 240, 240, WHITE);
   }
