@@ -8,19 +8,19 @@
 
 #include <ESP8266WiFi.h>
 
+// Festlegen der Netzwerkdaten
 const char* ssid     = "jugend_hackt";
 const char* password = "aegheex9ieTheine";
-
 const char* host = "10.0.15.98";
 const char* streamId   = "....................";
 const char* privateKey = "....................";
 
 void setup() {
+  //Initialisieren des seriellen Monitors
   Serial.begin(115200);
   delay(10);
 
-  // We start by connecting to a WiFi network
-
+  // Verbinden mit dem WiFi-Netzwerk und Ausgabe im S.M zum Debuggen
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
@@ -40,16 +40,17 @@ void setup() {
 }
 
 void loop() {
+  // Holt sich die aufbereiteten Wetterdaten vom Webserver zur Weiterverarbeitung
   Serial.println(GET());
   delay(5456);
+  
+  // Schickt den Wert an unseren Webserver
+  // POST-Bezeichnung eigentlich falsch, aber zur besseren Unterscheidung gewählt
   POST("888488488585858");
   delay(2345678);
   }
 
 int value = 0;
-
-
-
 
 void POST(String post)  {
   WiFiClient client;
@@ -60,15 +61,13 @@ void POST(String post)  {
   String url = "/";
   url += "?sensor=" + post;
   
-  
+  // Ausgabe zu Debuggingzwecken
   Serial.print("Requesting URL: ");
   Serial.println(url);
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                "Host: " + host + "\r\n" + 
-               "Connection: close\r\n\r\n");  
-  
+               "Connection: close\r\n\r\n");   
 }
-
 
 String GET() {
   delay(5000);
@@ -77,21 +76,21 @@ String GET() {
   Serial.print("connecting to ");
   Serial.println(host);
   
-  // Use WiFiClient class to create TCP connections
+  // Benutzt WiFiClient-Klasse um eine TCP-Verbindung zu erstellen
   WiFiClient client;
   const int httpPort = 8080;
   if (!client.connect(host, httpPort)) {
     Serial.println("connection failed");
-//    return;
+  /*return;*/
   }
   
-  // We now create a URI for the request
+  // Erstellen einer URI für den Request
   String url = "/";
   
   Serial.print("Requesting URL: ");
   Serial.println(url);
   
-  // This will send the request to the server
+  // Sendet den Request zum Server
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                "Host: " + host + "\r\n" + 
                "Connection: close\r\n\r\n");
@@ -100,11 +99,11 @@ String GET() {
     if (millis() - timeout > 5000) {
       Serial.println(">>> Client Timeout !");
       client.stop();
-//      return;
+      // return;
     }
   }
   
-  // Read all the lines of the reply from server and print them to Serial
+  // Liesst alle Zeilen der Antwort aus und schreibt sie auf den seriellen Monitor
   String line;
   while(client.available()){
     line = client.readStringUntil('\r');
