@@ -32,7 +32,7 @@
 #define MAGENTA  0xF81F
 #define YELLOW   0xFFE0
 #define WHITE    0xFFFF
-#define ORANGE   0xFD20
+#define ORANGE   0xFA00
 
 const unsigned char s1 [] PROGMEM = {
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -787,11 +787,11 @@ void loop(void)
     tft.fillScreen(YELLOW);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(16) == HIGH){
+  else if(digitalRead(15) == HIGH){
     tft.fillScreen(ORANGE);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(15) == HIGH){
+  else if(digitalRead(16) == HIGH){
     tft.fillScreen(RED);
     tft.drawBitmap(0, 0, s3, 240, 240, WHITE);
   }
