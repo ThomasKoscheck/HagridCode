@@ -14,8 +14,8 @@ gestern = str(int(heute)-1)
 
 #print(heute+ " " + gestern) #test
 
-os.system("rm feinstaub_werte")
-urllib.request.urlretrieve("http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=%s&dateTo=%s&station=DEBW019" % (gestern,heute), "feinstaub_werte" )
+os.system("rm -f ~/feinstaub_werte")
+urllib.request.urlretrieve("http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=%s&dateTo=%s&station=DEBW019" % (gestern,heute), "/home/pi/feinstaub_werte" )
 
 #Folgender Code ist nich sehr schoen. Er soll die letzte Zahl der Datei
 #feinstaub_werte extrahieren
