@@ -1,4 +1,4 @@
-
+#include <ESP8266WiFi.h>
 /***************************************************
   This is our GFX example for the Adafruit ILI9341 Breakout and Shield
   ----> http://www.adafruit.com/products/1651
@@ -770,31 +770,92 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // If using the breakout, change pins as desired
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
 
+const char* ssid = "jugend_hackt";
+const char* password = "aegheex9ieTheine";
+const char* host = "10.0.15.98";
 void setup()
 {
+  Serial.begin(115200);
   tft.begin();
   ESP.wdtDisable();
+  WiFi.begin(ssid, password);
+  while(WiFi.status() != WL_CONNECTED)  {
+    delay(50);
+
+    
+  }
+  Serial.println(WiFi.localIP());
+  
 }
 
 
 void loop(void)
 {
-  if(digitalRead(2) == LOW){
+  Serial.println(GET());
+  delay(100);
+  if(digitalRead(2) == HIGH){
     tft.fillScreen(GREEN);
     tft.drawBitmap(0, 0, s1, 240, 240, WHITE);
   }
-  else if(digitalRead(0) == LOW){
+  else if(digitalRead(0) == HIGH){
     tft.fillScreen(YELLOW);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(15) == LOW){
+  else if(digitalRead(15) == HIGH){
     tft.fillScreen(ORANGE);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(16) == LOW){
+  else if(digitalRead(16) == HIGH){
     tft.fillScreen(RED);
     tft.drawBitmap(0, 0, s3, 240, 240, WHITE);
   }
+
+}
+
+String GET() {
+  delay(5000);
+
+
+  Serial.print("connecting to ");
+  Serial.println(host);
+  
+  // Use WiFiClient class to create TCP connections
+  WiFiClient client;
+  const int httpPort = 8080;
+  if (!client.connect(host, httpPort)) {
+    Serial.println("connection failed");
+//    return;
+  }
+  
+  // We now create a URI for the request
+  String url = "/";
+  
+  Serial.print("Requesting URL: ");
+  Serial.println(url);
+  
+  // This will send the request to the server
+  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" + 
+               "Connection: close\r\n\r\n");
+  unsigned long timeout = millis();
+  while (client.available() == 0) {
+    if (millis() - timeout > 5000) {
+      Serial.println(">>> Client Timeout !");
+      client.stop();
+//      return;
+    }
+  }
+  
+  // Read all the lines of the reply from server and print them to Serial
+  String line;
+  while(client.available()){
+    line = client.readStringUntil('\r');
+    Serial.print(line);
+  }
+  
+  Serial.println();
+  Serial.println("closing connection");
+  return line;
 }
 
 
