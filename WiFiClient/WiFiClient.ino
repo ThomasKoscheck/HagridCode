@@ -42,6 +42,8 @@ void setup() {
 void loop() {
   Serial.println(GET());
   delay(5456);
+  POST("888488488585858");
+  delay(2345678);
   }
 
 int value = 0;
@@ -49,7 +51,23 @@ int value = 0;
 
 
 
-
+void POST(String post)  {
+  WiFiClient client;
+  const int httpPort = 8080;
+  if(client.connect(host, httpPort))  {
+    Serial.println("connection failed");
+  }
+  String url = "/";
+  url += "?sensor=" + post;
+  
+  
+  Serial.print("Requesting URL: ");
+  Serial.println(url);
+  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" + 
+               "Connection: close\r\n\r\n");  
+  
+}
 
 
 String GET() {
