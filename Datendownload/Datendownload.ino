@@ -22,6 +22,8 @@ const char* password = "12345678";
 
 const char* host = "www.umweltbundesamt.de";
 
+
+
 void setup() {
   Serial.begin(115200);
   delay(10);
@@ -81,4 +83,43 @@ void loop() {
   Serial.println();
   Serial.println("closing connection");
 }
+
+
+void feinstaubauswertung(int fnstb)  {    //fnstb == Feinstaub //nicht schön
+  int guteLuft = 20;  //BEISPEILWERTE TBC
+  int maesigeLuft = 40;
+  int mieseLuft = 60;
+  int youaredead = 80;
+
+  if(fnstb<=guteLuft)  {
+    smileyzeiger(1);
+  }
+  else if(fnstb<=maesigeLuft) {
+    smileyzeiger(2);
+  }
+  else if(fnstb<=mieseLuft) {
+    smileyzeiger(3);
+    
+  }
+  
+ /* switch(feinstaub) {
+    case(feinstaub<guteLuft):
+      smileyzeiger(1);
+      break;
+    case(feinstaub<maesigeLuft):
+      smileyzeiger(2);
+      break;
+    case(feinstaub<schlechteLuft):
+      smileyzeiger(3);
+      break;
+    case(feinstaub<youaredead):
+      smileyzeiger(4);
+      break;
+    default:
+      return;
+      break;
+    
+
+    }*/
+  }
 
