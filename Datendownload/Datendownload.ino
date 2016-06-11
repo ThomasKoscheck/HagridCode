@@ -9,18 +9,64 @@
 #include <WiFiClientSecure.h>
 #include <WiFiServer.h>
 #include <WiFiUdp.h>
+//#include <WiFi.h>
 #include <SPI.h>
-//#include <Ethernet.h>
 
 //Downloadlink zum Wert von Ulm am 10.06 bis 11.06
-//http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=20160610&dateTo=20160611&station=DEBW019
- 
+//http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=20160610&dateTo=20160611&station=DEBW019 
 // WiFi information
-const char* ssid     = "jugend_hackt";
-const char* password = "aegheex9ieTheine";
+char ssid[] = "jugend_hackt"; //  your network SSID (name)
+char pass[] = "aegheex9ieTheine";
 int smileyzeiger(int smiley);
+const char* host = "www.google.com";    //  10.0.15.98
 
-const char* host = "www.umweltbundesamt.de";
+int status = WL_IDLE_STATUS;
+
+const int httpsPort = 80;
+void setup();
+void loop();
+void serverdatenabfrageserial(String ziel);
+void feinstaubauswertung(int fnstb);
+void senddata(String data);
+String getdata();
+boolean isDataThere();
+WiFiClient client;
+char server[] = "www.google.com";
+
+String getanfrage()  {
+  Serial.println("\nStarting connection to server...");
+  // if you get a connection, report back via serial:
+  if (client.connect(server, 80)) {
+    Serial.println("connected to server");
+    // Make a HTTP request:
+    client.println("GET /search?q=arduino HTTP/1.1");
+    client.println("Host: www.google.com");
+    client.println("Connection: close");
+    client.println();
+  }
+}
+
+String datenempfang() {
+  String empfang = "";
+
+  while (client.available()) {
+    char c = client.read();
+    Serial.write(c);
+    empfang += c;
+    
+  }
+
+
+  // if the server's disconnected, stop the client:
+  if (!client.connected()) {
+    Serial.println();
+    Serial.println("disconnecting from server.");
+    client.stop();  
+}
+}
+
+
+
 
 
 
@@ -33,7 +79,7 @@ void setup() {
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid, pass);
   Serial.print("Trying to connect");
 
   while (WiFi.status() != WL_CONNECTED) {
@@ -48,14 +94,14 @@ void setup() {
 }
 
 String serialrecieve()  {
-  String recieve
+  String recieve;
   while(Serial.available()) {
     recieve += (char)Serial.read();
   }
   return recieve;
 }
 
-void serverdatenabfrageserial(String ziel) {
+/*void serverdatenabfrageserial(String ziel) {
       // Use WiFiClient class to create TCP connections
     WiFiClient client;
     const int httpPort = 80;
@@ -64,7 +110,7 @@ void serverdatenabfrageserial(String ziel) {
       return;
     }
 
-    String url = "/stan";
+    String url = "";
 
     client.print(String("GET ") + url +" HTTP/1.1\r\n" + "Host: " + ziel + "\r\n" + "Connection: close\r\n\r\n");
     Serial.println("Antwort:");
@@ -72,8 +118,13 @@ void serverdatenabfrageserial(String ziel) {
       Serial.println(client.readStringUntil('\r'));
     }    
 }
-
-void loop() {}
+*/
+void loop() {
+  getanfrage();
+  delay(300);
+  getanfrage();
+  delay(700);
+  }
 
 void feinstaubauswertung(int fnstb)  {    //fnstb == Feinstaub //nicht schön
   int grueneLuft = 20;  
