@@ -1,3 +1,4 @@
+
 /***************************************************
   This is our GFX example for the Adafruit ILI9341 Breakout and Shield
   ----> http://www.adafruit.com/products/1651
@@ -19,8 +20,9 @@
 #include "Adafruit_ILI9341.h"
 
 // For the Adafruit shield, these are the default.
-#define TFT_DC 1
-#define TFT_CS 3
+#define TFT_DC 4
+#define TFT_CS 5
+
 
 #define BLACK    0x0000
 #define BLUE     0x001F
@@ -30,6 +32,7 @@
 #define MAGENTA  0xF81F
 #define YELLOW   0xFFE0
 #define WHITE    0xFFFF
+#define ORANGE   0xFD20
 
 const unsigned char s1 [] PROGMEM = {
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -780,20 +783,18 @@ void loop(void)
     tft.fillScreen(GREEN);
     tft.drawBitmap(0, 0, s1, 240, 240, WHITE);
   }
-  else if(digitalRead(4) == HIGH){
+  else if(digitalRead(0) == HIGH){
     tft.fillScreen(YELLOW);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(5) == HIGH){
-    tft.fillScreen(CYAN);
+  else if(digitalRead(16) == HIGH){
+    tft.fillScreen(ORANGE);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
   else if(digitalRead(15) == HIGH){
     tft.fillScreen(RED);
     tft.drawBitmap(0, 0, s3, 240, 240, WHITE);
   }
-
-  //delay(100);  
 }
 
 
