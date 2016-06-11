@@ -29,6 +29,7 @@ void setup()
 
 void loop() 
 {
+  delay(250);
   // Das Erfassen von Temperatur und Luftfeuchtigkeit benoetigt ca. 250 Millisekunden.
   float h = dht.readHumidity();
   float t = dht.readTemperature();
@@ -36,6 +37,7 @@ void loop()
   // Check, ob die Daten Zahlen sind, falls nicht (NaN: not a number), ist was falsch gelaufen!
   if (isnan(t) || isnan(h)) {
     Serial.println("Fehler beim Lesen vom DHT-Sensor");
+    delay(2000);
   } else {
     //t = t - 1.00; //Diese Korrektur war bei mir noetig
     Serial.print("Feuchtigkeit: "); 
