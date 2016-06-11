@@ -10,10 +10,8 @@
 #include <WiFiServer.h>
 #include <WiFiUdp.h>
 #include <SPI.h>
-#include <Ethernet.h>
+//#include <Ethernet.h>
 #include <WiFiClient.h>
- 
-/* Sketch teilweise von : http://stackoverflow.com/questions/34078497/esp8266-wificlient-simple-http-get */
 
 //Downloadlink zum Wert von Ulm am 10.06 bis 11.06
 //http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=20160610&dateTo=20160611&station=DEBW019
@@ -28,10 +26,8 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
-  // We start by connecting to a WiFi network
+  //WiFi Verbindungsaufbau um später Datei abrufen zu können
 
-  Serial.println();
-  Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
