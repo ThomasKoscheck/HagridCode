@@ -39,9 +39,20 @@ void setup() {
   Serial.println(WiFi.localIP());
 }
 
+void loop() {
+  Serial.println(GET());
+  delay(5456);
+  }
+
 int value = 0;
 
-void loop() {
+
+
+
+
+
+
+String GET() {
   delay(5000);
   ++value;
 
@@ -53,7 +64,7 @@ void loop() {
   const int httpPort = 8080;
   if (!client.connect(host, httpPort)) {
     Serial.println("connection failed");
-    return;
+//    return;
   }
   
   // We now create a URI for the request
@@ -71,17 +82,19 @@ void loop() {
     if (millis() - timeout > 5000) {
       Serial.println(">>> Client Timeout !");
       client.stop();
-      return;
+//      return;
     }
   }
   
   // Read all the lines of the reply from server and print them to Serial
+  String line;
   while(client.available()){
-    String line = client.readStringUntil('\r');
+    line = client.readStringUntil('\r');
     Serial.print(line);
   }
   
   Serial.println();
   Serial.println("closing connection");
+  return line;
 }
 
