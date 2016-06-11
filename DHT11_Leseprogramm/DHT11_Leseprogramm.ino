@@ -1,6 +1,5 @@
 //Arduino holt sich die Werte vom DHT11 und gibt sie auf dem Seriellen Monitor aus.
 
-
 // Temperatur und Luftfeuchtigkeitssensor DHT11
 //
 // DHT11, wenn Du auf das "Gitter" schaust, ist links Pin1

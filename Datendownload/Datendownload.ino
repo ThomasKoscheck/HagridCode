@@ -62,14 +62,10 @@ void serverdatenabfrageserial(String ziel) {
     Serial.println("Antwort:");
     while(client.available()) {
       Serial.println(client.readStringUntil('\r'));
-    }
-    
+    }    
 }
 
-void loop() {
-
-}
-
+void loop() {}
 
 void feinstaubauswertung(int fnstb)  {    //fnstb == Feinstaub //nicht schön
   int grueneLuft = 20;  
