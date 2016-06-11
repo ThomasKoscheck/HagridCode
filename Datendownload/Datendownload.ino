@@ -14,6 +14,7 @@
 #include <WiFiClient.h>
  
 /* Sketch teilweise von : http://stackoverflow.com/questions/34078497/esp8266-wificlient-simple-http-get */
+
 //Downloadlink zum Wert von Ulm am 10.06 bis 11.06
 //http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=20160610&dateTo=20160611&station=DEBW019
  
