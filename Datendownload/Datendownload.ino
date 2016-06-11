@@ -11,7 +11,6 @@
 #include <WiFiUdp.h>
 #include <SPI.h>
 //#include <Ethernet.h>
-#include <WiFiClient.h>
 
 //Downloadlink zum Wert von Ulm am 10.06 bis 11.06
 //http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=20160610&dateTo=20160611&station=DEBW019
