@@ -1,3 +1,7 @@
+## 
+## Webserver auf Raspberry Pi, der FLASK benutzt
+
+
 #!/usr/bin/python
 from flask import Flask
 from flask import request
