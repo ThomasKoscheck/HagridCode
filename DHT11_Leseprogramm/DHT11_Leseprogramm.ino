@@ -10,7 +10,7 @@
 // Pin 4: GND
 // 2K oder 5K oder 10K Widerstand von Pin 2 (data) nach Pin 1 (power) 
 
-
+#include <Wire.h>
 #include <DHT.h> //von ladyada: https://github.com/adafruit/DHT-sensor-library
 
 #define DHTPIN 2     // benutzter ARDUINO-Pin
@@ -25,7 +25,6 @@ void setup()
   Serial.begin(115200); 
   dht.begin();
 }
-
 
 void loop() 
 {
