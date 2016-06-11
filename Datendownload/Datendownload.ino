@@ -17,10 +17,10 @@
 //http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=20160610&dateTo=20160611&station=DEBW019
  
 // WiFi information
-const char* ssid     = "jugend_hackt";
-const char* password = "aegheex9ieTheine";
+const char* ssid     = "666666";
+const char* password = "12345678";
 
-const char* host = "google.com";
+const char* host = "www.umweltbundesamt.de";
 
 void setup() {
   Serial.begin(115200);
@@ -32,6 +32,7 @@ void setup() {
   Serial.println(ssid);
 
   WiFi.begin(ssid, password);
+  Serial.print("Trying to connect");
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -44,12 +45,9 @@ void setup() {
   Serial.println(WiFi.localIP());
 }
 
-int value = 0;
 
 void loop() {
   delay(5000);
-  ++value;
-
   Serial.print("connecting to ");
   Serial.println(host);
 
