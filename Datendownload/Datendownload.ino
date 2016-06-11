@@ -1,113 +1,67 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266WiFiAP.h>
+#include <ESP8266WiFiGeneric.h>
+#include <ESP8266WiFiMulti.h>
+#include <ESP8266WiFiScan.h>
+#include <ESP8266WiFiSTA.h>
+#include <ESP8266WiFiType.h>
 #include <WiFiClient.h>
-void setup() {
-  // put your setup code here, to run once:
-
-}
-
-void loop() {
-
- 
-// WiFi information
-const char WIFI_SSID[] = "My_WiFi_SSID";
-const char WIFI_PSK[] = "My_WiFi_Password";
+#include <WiFiClientSecure.h>
+#include <WiFiServer.h>
+#include <WiFiUdp.h>
+#include <SPI.h>
+#include <Ethernet.h>
+#include <WiFiClient.h>
  
 // Remote site information
-const char http_site[] = "www.example.com";
-const int http_port = 80;
+//Downloadlink zum Wert von Ulm am 10.06 bis 11.06
+//http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=20160610&dateTo=20160611&station=DEBW019
  
-// Pin definitions
-const int LED_PIN = 5;
- 
-// Global variables
-WiFiClient client;
- 
-void setup() {
-  
-  // Set up serial console to read web page
-  Serial.begin(9600);
-  Serial.print("Thing GET Example");
-  
-  // Set up LED for debugging
-  pinMode(LED_PIN, OUTPUT);
-  
-  // Connect to WiFi
-  connectWiFi();
-  
-  // Attempt to connect to website
-  if ( !getPage() ) {
-    Serial.println("GET request failed");
-  }
-}
- 
-void loop() {
-  
-  // If there are incoming bytes, print them
-  if ( client.available() ) {
-    char c = client.read();
-    Serial.print(c);
-  }
-  
-  // If the server has disconnected, stop the client and WiFi
-  if ( !client.connected() ) {
-    Serial.println();
-    
-    // Close socket and wait for disconnect from WiFi
-    client.stop();
-    if ( WiFi.status() != WL_DISCONNECTED ) {
-      WiFi.disconnect();
-    }
-    
-    // Turn off LED
-    digitalWrite(LED_PIN, LOW);
-    
-    // Do nothing
-    Serial.println("Finished Thing GET test");
-    while(true){
-      delay(1000);
-    }
-  }
-}
- 
-// Attempt to connect to WiFi
-void connectWiFi() {
-  
-  byte led_status = 0;
-  
-  // Set WiFi mode to station (client)
-  WiFi.mode(WIFI_STA);
-  
-  // Initiate connection with SSID and PSK
-  WiFi.begin(WIFI_SSID, WIFI_PSK);
-  
-  // Blink LED while we wait for WiFi connection
-  while ( WiFi.status() != WL_CONNECTED ) {
-    digitalWrite(LED_PIN, led_status);
-    led_status ^= 0x01;
-    delay(100);
-  }
-  
-  // Turn LED on when we are connected
-  digitalWrite(LED_PIN, HIGH);
-}
- 
-// Perform an HTTP GET request to a remote page
-bool getPage() {
-  
-  // Attempt to make a connection to the remote server
-  if ( !client.connect(http_site, http_port) ) {
-    return false;
-  }
-  
-  // Make an HTTP GET request
-  client.println("GET /index.html HTTP/1.1");
-  client.print("Host: ");
-  client.println(http_site);
-  client.println("Connection: close");
-  client.println();
-  
-  return true;
-}
-  //Downloadlink zum Wert von Ulm am 10.06 bis 11.06
- http://www.umweltbundesamt.de/luftdaten/data.csv?pollutant=PM1&data_type=1TMW&date=20160610&dateTo=20160611&station=DEBW019
+#include <ESP8266WiFi.h>
 
+#define TOKEN "YOUR THING TOKEN"
+
+// WiFi information
+#define SSID      "jugend_hackt"
+#define PASS_SSID "aegheex9ieTheine"
+
+WiFiClient client;
+
+void setup() {
+    Serial.begin(9600);
 }
+
+void checkConnection() {
+    if (WiFi.status() != WL_CONNECTED) {
+        WiFi.begin(SSID, PASS_SSID);
+        while (WiFi.status() != WL_CONNECTED) {
+            Serial.print(".");
+            delay(1000);
+        }
+    }
+    if (!client.connected()) {
+        if (client.connect("api.thethings.io", 80)) {
+            //client.println("GET /v2/things/" + String(TOKEN) + " HTTP/1.1");
+            client.println("Host: api.thethings.io");
+            client.println("Accept: application/json");
+            client.println();
+        }
+    }
+}
+
+void loop() {
+    checkConnection();
+    String string;
+    while (client.available()) {
+        string.concat((char)client.read());
+    }
+    string.toUpperCase();
+    string.replace(" ", "");
+    if (string.indexOf("\"VALUE\":1") > 0) {
+        Serial.println("ON");
+    }
+    else if (string.indexOf("\"VALUE\":0") > 0) {
+        Serial.println("OFF");
+    }
+}
+
