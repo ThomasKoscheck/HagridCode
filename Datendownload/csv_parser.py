@@ -1,3 +1,4 @@
+## 
 ## Pythonscript für den Raspberry Pi um aktuelle Feinstaubdaten für Ulm herunterzuladen.
 ## Außerdem wird aus der Datei der entsprechende String ausgelesen und in entsprechendes Format konvertiert
 
