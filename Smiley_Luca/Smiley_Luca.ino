@@ -787,25 +787,39 @@ void setup()
   Serial.println(WiFi.localIP());
   
 }
+int currentSelection;
+int recieved;
+Serial.println(recieved);
+void loop() {
+  String empfang = GET();
+  recieved = empfang.toInt();
+  if(recieved != currentSelection) {
 
+    currentSelection = recieved;    
+    Bildschirm(recieved);
+  }
+  else  {
+    delay(20000);
+  }
+}
 
-void loop(void)
+void Bildschirm(int auswahl)
 {
   Serial.println(GET());
   delay(100);
-  if(digitalRead(2) == HIGH){
+  if(auswahl == 0){
     tft.fillScreen(GREEN);
     tft.drawBitmap(0, 0, s1, 240, 240, WHITE);
   }
-  else if(digitalRead(0) == HIGH){
+  else if(auswahl == 1){
     tft.fillScreen(YELLOW);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(15) == HIGH){
+  else if(auswahl == 3){
     tft.fillScreen(ORANGE);
     tft.drawBitmap(0, 0, s2, 240, 240, WHITE);
   }
-  else if(digitalRead(16) == HIGH){
+  else if(auswahl == 4){
     tft.fillScreen(RED);
     tft.drawBitmap(0, 0, s3, 240, 240, WHITE);
   }
