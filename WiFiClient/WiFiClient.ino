@@ -1,9 +1,6 @@
 /*
- *  This sketch sends data via HTTP GET requests to data.sparkfun.com service.
- *
- *  You need to get streamId and privateKey at data.sparkfun.com and paste them
- *  below. Or just customize this script to talk to other HTTP servers.
- *
+ *  Dieser Sketch sendet Daten via HTTP GET Requests im Netzwerk.
+ *  Sämtliche Server-zu-ESP-Kommunikation wird hier geregelt.
  */
 
 #include <ESP8266WiFi.h>
@@ -12,20 +9,19 @@
 const char* ssid     = "jugend_hackt";
 const char* password = "aegheex9ieTheine";
 const char* host = "10.0.15.98";
-const char* streamId   = "....................";
-const char* privateKey = "....................";
 
 void setup() {
   //Initialisieren des seriellen Monitors
   Serial.begin(115200);
   delay(10);
 
-  // Verbinden mit dem WiFi-Netzwerk und Ausgabe im S.M zum Debuggen
+  // Verbinden mit dem WiFi-Netzwerk und Ausgabe im seriellen Monitor zum Debuggen
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
-  
+
+  // Verbinden mit WiFi
   WiFi.begin(ssid, password);
   
   while (WiFi.status() != WL_CONNECTED) {
@@ -33,6 +29,7 @@ void setup() {
     Serial.print(".");
   }
 
+  // Ausgabe zu Debuggingzwecken
   Serial.println("");
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
@@ -40,7 +37,7 @@ void setup() {
 }
 
 void loop() {
-  // Holt sich die aufbereiteten Wetterdaten vom Webserver zur Weiterverarbeitung
+  // Holt sich die aufbereiteten Wetterdaten vom Raspberry Pi zur Weiterverarbeitung
   Serial.println(GET());
   delay(5456);
   
