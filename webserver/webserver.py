@@ -20,20 +20,19 @@ def type3():
 @app.route("/feinstaub")
 def type4():
         feinstaub_werte = open("feinstaub").read()
-        grueneLuft = 20
-        if feinstaub_werte<= grueneLuft:
-                 return "0"
+        gruen = 20
+        gelb = 30
+        orange = 40
+        if feinstaub_werte < orange:
+                return "3"
+        elif feinstaub_werte < gelb:
+                return "2"
+        elif feinstaub_werte < gruen:
+                return "1"
+        elif feinstaub_werte >= gruen:
+                return "0"
+                
 
-        gelbeLuft = 30
-        if feinstaub_werte<= gelbeLuft:
-                  return "1"
-
-        orangeneLuft = 40
-        if feinstaub_werte<= orangeneLuft:
-                  return "2"
-	
-
-        return "3"
 
 
 @app.route("/",methods=['GET'])
