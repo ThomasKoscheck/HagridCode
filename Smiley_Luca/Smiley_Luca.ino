@@ -789,10 +789,11 @@ void setup()
 }
 int currentSelection;
 int recieved;
-Serial.println(recieved);
+
 void loop() {
   String empfang = GET();
   recieved = empfang.toInt();
+  Serial.println(recieved);
   if(recieved != currentSelection) {
 
     currentSelection = recieved;    
