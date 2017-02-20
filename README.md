@@ -1,5 +1,5 @@
 # HagridCode
-##Jugend hackt! 2016 - 
+####Jugend hackt! 2016 - 
 Kleines Umweltprojekt, welches die tagesaktuellen OpenData - Feinstaubwerte der (eigenen) Stadt verarbeitet und darstellt. 
 Zur Darstellung werden unterschiedliche Smileys in verschiedenen Farben auf einem kleinen Display verwendet.
 
